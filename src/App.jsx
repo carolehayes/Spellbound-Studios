@@ -10,6 +10,12 @@ const navItems = [
   ['Journal', '/journal'], ['About', '/about'], ['Contact', '/contact'],
 ];
 
+const normalizeMedia = (item) => typeof item === 'string'
+  ? { src: item, label: 'Concept Design', caption: '' }
+  : item;
+
+const mediaTone = (label = '') => label.toLowerCase().replaceAll(' ', '-');
+
 function useRouter() {
   const [path, setPath] = useState(`${window.location.pathname}${window.location.search}`);
   useEffect(() => {
@@ -148,6 +154,7 @@ const categories = [
   ['Cats & Breeding', 'Tools shaped around real cattery life.', '♧'],
   ['AI & Consciousness', 'New ways to think, connect, and explore.', '◈'],
   ['Creativity & Self', 'Room for expression and reflection.', '❋'],
+  ['Faith & Story', 'Old stories, fresh voices, honest context.', '✧'],
   ['Experiments', 'Curious sparks with somewhere to go.', '⌁'],
 ];
 
@@ -277,24 +284,26 @@ function AppsPage({ path, navigate }) {
 function ProjectDetail({ project, navigate }) {
   const [lightbox, setLightbox] = useState(null);
   const related = journalEntries.filter((entry) => entry.project.includes(project.name.split(' ')[0]) || entry.project === 'Spellbound Studios').slice(0, 2);
+  const gallery = project.screenshots.map(normalizeMedia);
+  const hasCurrentBuild = gallery.some((item) => item.label === 'Current Build');
   return (
     <main className={`project-detail accent-${project.accent}`}>
       <section className="project-hero">
         <Link href="/apps" navigate={navigate} className="back-link">← All apps</Link>
         <div className="project-hero-copy">
-          <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div></div>
-          <ImageFrame src={project.image} alt={`${project.name} concept artwork`} label="Concept Design" />
+          <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div>{project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">View current build <ExternalLink size={15} /></a>}</div>
+          <ImageFrame src={project.image} alt={`${project.name} project preview`} label={project.imageLabel || 'Concept Design'} />
         </div>
       </section>
 
       <section className="page-section detail-overview">
-        <div><p className="section-label">What it is</p><h2>An idea with room to become real.</h2><p>{project.longDescription}</p></div>
+        <div><p className="section-label">What it is</p><h2>{hasCurrentBuild ? 'A working project with room to grow.' : 'An idea with room to become real.'}</h2><p>{project.longDescription}</p></div>
         <div><p className="section-label">Key features</p><ul className="feature-list">{project.features.map((feature) => <li key={feature}><Check size={16} />{feature}</li>)}</ul></div>
       </section>
 
       <section className="gallery-section">
-        <div className="section-heading"><div><p className="section-label">The visual direction</p><h2>Project gallery</h2><p>These are concept images, not claims of live software.</p></div></div>
-        <div className="gallery-rail">{project.screenshots.map((src, index) => <button key={`${src}-${index}`} onClick={() => setLightbox(index)}><img src={src} alt={`${project.name} concept ${index + 1}`} /><span><ZoomIn size={17} />Concept Design</span></button>)}</div>
+        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{hasCurrentBuild ? 'Real build captures are labeled Current Build. Planned views remain clearly marked as concepts.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p></div></div>
+        <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></button>)}</div>
       </section>
 
       <section className="page-section timeline-section">
@@ -319,7 +328,7 @@ function ProjectDetail({ project, navigate }) {
         <div className="journal-row">{related.map((entry) => <article key={entry.title}><time>{formatDate(entry.date)}</time><h3>{entry.title}</h3><p>{entry.summary}</p></article>)}</div>
       </section>
       <ClosingCta navigate={navigate} />
-      {lightbox !== null && <Lightbox images={project.screenshots} index={lightbox} name={project.name} setIndex={setLightbox} onClose={() => setLightbox(null)} />}
+      {lightbox !== null && <Lightbox images={gallery} index={lightbox} name={project.name} setIndex={setLightbox} onClose={() => setLightbox(null)} />}
     </main>
   );
 }
@@ -331,10 +340,10 @@ function Lightbox({ images, index, name, setIndex, onClose }) {
     return () => window.removeEventListener('keydown', handle);
   }, [images.length, index, onClose, setIndex]);
   return (
-    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${name} concept gallery`} onClick={onClose}>
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${name} project gallery`} onClick={onClose}>
       <button className="lightbox-close" onClick={onClose} aria-label="Close"><X /></button>
       <button className="lightbox-prev" onClick={(e) => { e.stopPropagation(); setIndex((index - 1 + images.length) % images.length); }} aria-label="Previous">←</button>
-      <figure onClick={(e) => e.stopPropagation()}><img src={images[index]} alt={`${name} concept ${index + 1}`} /><figcaption>Concept Design · {index + 1} of {images.length}</figcaption></figure>
+      <figure onClick={(e) => e.stopPropagation()}><img src={images[index].src} alt={images[index].caption || `${name} gallery image ${index + 1}`} /><figcaption><strong>{images[index].label}</strong>{images[index].caption ? ` · ${images[index].caption}` : ''} · {index + 1} of {images.length}</figcaption></figure>
       <button className="lightbox-next" onClick={(e) => { e.stopPropagation(); setIndex((index + 1) % images.length); }} aria-label="Next">→</button>
     </div>
   );
