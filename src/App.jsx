@@ -3,10 +3,11 @@ import {
   ArrowRight, Check, ChevronDown, ExternalLink, Feather, Menu, Search,
   Sparkles, X, ZoomIn, CalendarDays, Circle, Mail, ShieldCheck, Layers3,
 } from 'lucide-react';
+import CatteryAppPage from './CatteryAppPage.jsx';
 import { categoryOptions, incubatorIdeas, journalEntries, projects, statusOptions } from './data.js';
 
 const navItems = [
-  ['Home', '/'], ['Apps', '/apps'], ['Progress', '/progress'], ['Incubator', '/incubator'],
+  ['Home', '/'], ['Apps', '/apps'], ['Cattery App', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
   ['Journal', '/journal'], ['About', '/about'], ['Contact', '/contact'],
 ];
 
