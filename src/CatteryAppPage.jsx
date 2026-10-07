@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Check, Heart, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { FEATURES, NAME_CHOICES, PLANS, SIGNUP_URL } from './catteryAppData.js';
 
@@ -23,6 +23,71 @@ async function pollCall(method, body, token) {
   const data = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(data.error || 'Something went wrong.');
   return data;
+}
+
+const KEY_STORE = 'ss-poll-edit-key';
+const readKey = () => { try { return localStorage.getItem(KEY_STORE) || ''; } catch { return ''; } };
+const saveKey = (k) => { try { if (k) localStorage.setItem(KEY_STORE, k); else localStorage.removeItem(KEY_STORE); } catch { /* private mode: key just isn't remembered */ } };
+
+// A small right-click menu. Measures its real size before clamping to the window.
+function RightMenu({ at, items, onClose }) {
+  const ref = useRef(null);
+  const [pos, setPos] = useState({ left: at.x, top: at.y });
+  useLayoutEffect(() => {
+    const r = ref.current.getBoundingClientRect();
+    setPos({ left: Math.max(8, Math.min(at.x, window.innerWidth - r.width - 8)), top: Math.max(8, Math.min(at.y, window.innerHeight - r.height - 8)) });
+  }, [at]);
+  useEffect(() => {
+    const close = () => onClose();
+    const esc = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('click', close); window.addEventListener('scroll', close, true); window.addEventListener('keydown', esc);
+    return () => { window.removeEventListener('click', close); window.removeEventListener('scroll', close, true); window.removeEventListener('keydown', esc); };
+  }, [onClose]);
+  return (
+    <div ref={ref} className="ca-menu" style={pos} role="menu" onContextMenu={(e) => e.preventDefault()}>
+      {items.map((it) => <button key={it.label} type="button" role="menuitem" title={it.title} onClick={it.run}>{it.label}</button>)}
+    </div>
+  );
+}
+
+// Editing panel: add, rename, delete names and read suggestions. Needs the editing key.
+function EditPanel({ token, adminKey, data, setData, onDone, focusId }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const call = async (op, extra = {}) => {
+    setBusy(true); setError('');
+    try { setData(await pollCall('POST', { action: 'admin', key: adminKey, op, ...extra }, token)); return true; }
+    catch (e) { setError(e.message); return false; }
+    finally { setBusy(false); }
+  };
+  const save = (e, id) => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.currentTarget)); call('update', { id, label: f.label, line: f.line }); };
+  const add = async (e) => { e.preventDefault(); const form = e.currentTarget; const f = Object.fromEntries(new FormData(form)); if (await call('add', { label: f.label, line: f.line })) form.reset(); };
+  return (
+    <div className="ca-edit">
+      <div className="ca-edit-head"><h3>Edit the names</h3><button type="button" className="button secondary" onClick={onDone} title="Close the editor">Done</button></div>
+      {data.choices.map((c) => (
+        <form key={`${c.id}:${c.label}:${c.line}`} className={`ca-edit-row ${focusId === c.id ? 'focus' : ''}`} onSubmit={(e) => save(e, c.id)}>
+          <input name="label" defaultValue={c.label} maxLength="40" required aria-label="Name" />
+          <input name="line" defaultValue={c.line} maxLength="90" aria-label="One-line description" />
+          <span className="ca-edit-votes" title="Votes for this name">{data.votes?.[c.id] ?? 0} votes</span>
+          <button className="button secondary" disabled={busy} title="Save this name and description. Its votes stay.">Save</button>
+          <button type="button" className="button secondary" disabled={busy} title="Set this name’s votes back to zero" onClick={() => { if (window.confirm(`Reset the votes for ${c.label}?`)) call('resetVotes', { id: c.id }); }}>Reset votes</button>
+          <button type="button" className="button secondary" disabled={busy} title="Remove this name and its votes from the poll" onClick={() => { if (window.confirm(`Delete ${c.label} and its votes?`)) call('delete', { id: c.id }); }}>Delete</button>
+        </form>
+      ))}
+      <form className="ca-edit-row add" onSubmit={add}>
+        <input name="label" maxLength="40" placeholder="New name" required aria-label="New name" />
+        <input name="line" maxLength="90" placeholder="One-line description" aria-label="New one-line description" />
+        <button className="button" disabled={busy} title="Add this name to the poll">Add a name</button>
+      </form>
+      {error && <p className="ca-error" role="alert">{error}</p>}
+      <h4>Ideas people have sent ({data.suggestions?.length || 0})</h4>
+      {data.suggestions?.length ? <ul className="ca-ideas">{data.suggestions.map((s) => (
+        <li key={s.id}><strong>{s.name}</strong>{s.note ? <span> — {s.note}</span> : null}
+          <button type="button" className="button secondary" disabled={busy} title={`Add ${s.name} to the poll`} onClick={() => call('add', { label: s.name, line: s.note || '' })}>Add to poll</button></li>
+      ))}</ul> : <p className="ca-note">None yet.</p>}
+    </div>
+  );
 }
 
 function NamePoll() {
@@ -51,10 +116,39 @@ function NamePoll() {
     setBusy(false);
   };
 
+  // ── Editing (right-click, or the Edit names button once unlocked on this device) ──
+  const [menu, setMenu] = useState(null);
+  const [adminKey, setAdminKey] = useState(readKey);
+  const [editing, setEditing] = useState(false);
+  const [focusId, setFocusId] = useState(null);
+  const [unlock, setUnlock] = useState(false);
+  const [adminData, setAdminData] = useState(null);
+  const [unlockError, setUnlockError] = useState('');
+
+  const openEditor = async (key, id = null) => {
+    setUnlockError('');
+    try {
+      const d = await pollCall('POST', { action: 'admin', key, op: 'list' }, token);
+      saveKey(key); setAdminKey(key); setAdminData(d); setFocusId(id); setEditing(true); setUnlock(false);
+    } catch (e) { saveKey(''); setAdminKey(''); setUnlock(true); setUnlockError(e.message); }
+  };
+  const startEdit = (id = null) => { setMenu(null); if (adminKey) openEditor(adminKey, id); else { setFocusId(id); setUnlock(true); } };
+  const finishEdit = () => {
+    setEditing(false);
+    pollCall('GET', null, token).then((d) => setState({ ...d })).catch(() => {});
+  };
+  const onMenu = (e, c) => {
+    e.preventDefault();
+    const items = [{ label: 'Edit names…', title: 'Open the name editor', run: () => startEdit(c?.id || null) }];
+    if (c) items.unshift({ label: `Edit “${c.label}”`, title: `Change the wording of ${c.label}`, run: () => startEdit(c.id) });
+    setMenu({ x: e.clientX, y: e.clientY, items });
+  };
+
   const choices = state.choices || NAME_CHOICES;
   const showResults = state.voted && state.votes;
   return (
-    <section className="page-section ca-poll" id="name">
+    <section className="page-section ca-poll" id="name" onContextMenu={(e) => onMenu(e, null)}>
+      {menu && <RightMenu at={menu} items={menu.items} onClose={() => setMenu(null)} />}
       <p className="section-label">Help us name it</p>
       <h2>This one needs a name.</h2>
       <p className="ca-lede">I built it because running my cattery meant juggling websites, QuickBooks, notes, spreadsheets and my own overloaded brain. Now I’m turning the system I built for myself into something other breeders can use too. Which of these feels like a place you’d want to run your cattery?</p>
@@ -64,7 +158,7 @@ function NamePoll() {
             const n = showResults ? state.votes[c.id] || 0 : 0;
             const pct = showResults && state.total ? Math.round((n / state.total) * 100) : 0;
             return (
-              <button key={c.id} type="button" disabled={busy || state.loading} onClick={() => vote(c.id)}
+              <button key={c.id} type="button" onContextMenu={(e) => { e.stopPropagation(); onMenu(e, c); }} disabled={busy || state.loading} onClick={() => vote(c.id)}
                 className={`ca-choice ${state.mine === c.id ? 'mine' : ''}`}
                 title={state.mine === c.id ? 'Your vote. Click another name to change it.' : `Vote for ${c.label}`}>
                 {showResults && <span className="ca-bar" style={{ width: `${pct}%` }} aria-hidden="true" />}
@@ -76,6 +170,16 @@ function NamePoll() {
           })}
         </div>
       )}
+      {editing && adminData && <EditPanel token={token} adminKey={adminKey} data={adminData} setData={setAdminData} onDone={finishEdit} focusId={focusId} />}
+      {unlock && (
+        <form className="ca-unlock" onSubmit={(e) => { e.preventDefault(); openEditor(String(new FormData(e.currentTarget).get('key') || '').trim(), focusId); }}>
+          <label>Editing key<input name="key" type="password" autoComplete="off" required /></label>
+          <button className="button" title="Unlock the name editor on this device">Unlock</button>
+          <button type="button" className="button secondary" onClick={() => setUnlock(false)} title="Cancel">Cancel</button>
+          {unlockError && <span className="ca-error" role="alert">{unlockError}</span>}
+        </form>
+      )}
+      {adminKey && !editing && !unlock && <button type="button" className="ca-linkbtn" onClick={() => startEdit()} title="Open the name editor">Edit names</button>}
       {showResults && <p className="ca-note">{state.total} {state.total === 1 ? 'vote' : 'votes'} so far. You can change yours any time.</p>}
       {error && <p className="ca-error" role="alert">{error}</p>}
       {suggested ? <p className="ca-thanks"><Heart size={16} /> Thank you, that idea is saved.</p> : (
