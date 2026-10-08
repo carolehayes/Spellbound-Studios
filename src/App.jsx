@@ -516,7 +516,8 @@ export default function App() {
   else if (cleanPath.startsWith('/apps/')) {
     const project = projects.find((item) => item.slug === cleanPath.split('/')[2]);
     page = project ? <ProjectDetail project={project} navigate={navigate} /> : <NotFound navigate={navigate} />;
-  } else if (cleanPath === '/progress') page = <ProgressPage navigate={navigate} />;
+  } else if (cleanPath === '/cattery-app') page = <CatteryAppPage />;
+  else if (cleanPath === '/progress') page = <ProgressPage navigate={navigate} />;
   else if (cleanPath === '/incubator') page = <IncubatorPage navigate={navigate} />;
   else if (cleanPath === '/journal') page = <JournalPage navigate={navigate} />;
   else if (cleanPath === '/about') page = <AboutPage navigate={navigate} />;
