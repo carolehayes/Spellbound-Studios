@@ -149,6 +149,23 @@ export const projects = [
 ];
 
 export const incubatorIdeas = [
+  {
+    name: 'Ritual Companion (working title)',
+    state: 'Exploring',
+    accent: 'violet',
+    spark: 'A one-tap 90-second emotion reset that grows into a beautiful, searchable library of tiny practices for whatever you need right now.',
+    mightBecome: 'An interactive ritual and reflection companion with emotion check-ins, guided practices, saved discoveries, dreamwork, manifestation, and vision boards.',
+    image: '/images/liminal.jpg',
+    lastUpdated: '2026-10-16',
+    firstRelease: 'A single centered Start button for a 90-second timer, gentle optional visual guidance, and an optional before/after emotion reflection. Keep it useful without requiring an account or a questionnaire.',
+    practiceAreas: ['Emotional regulation', 'Breathwork and meditation', 'EFT tapping', 'Humming and body scans', 'Gratitude and self-reflection', 'Dreamwork', 'Manifestation', 'Vision boards', 'Future-self work', 'Symbolic rituals'],
+    libraryVision: 'Turn saved TikTok, Facebook, and other ideas into searchable practice cards with purpose, duration, instructions, favorites, personal notes, and clearly distinguished research evidence versus spiritual symbolism.',
+    experienceVision: 'Ask “What do you need right now?” and offer a small number of relevant practices rather than overwhelming people with menus.',
+    visualDirections: ['Moonlit Sanctuary: midnight navy and gold', 'Soft Ritual Linen: ivory, sage, and warm neutrals', 'Cosmic Glass: luminous indigo, plum, and teal', 'Living Grimoire: forest green, parchment, and bronze'],
+    possibleNames: ['Soul Codex', 'Moonlit Sanctuary', 'Lumina', 'Astral Reset', 'The Ritual Room', 'Still'],
+    productStrategy: 'Start with one shared ritual engine and a single flagship experience. Explore selectable visual realms or separate audience-facing brands later; do not build four independent codebases.',
+    notes: 'Concept mockups for four visual directions were explored in the Spellbound Studios ChatGPT project. Names, product packaging, and monetization are provisional; this is an Incubator concept, not a launched product.',
+  },
   { name: 'Consciousness Portals', state: 'Exploring', accent: 'violet', spark: 'A more experiential way to explore consciousness than a flat library of information.', mightBecome: 'Interactive maps, portals, dialogues, dream and codex tools, and community journeys.', image: '/images/liminal.jpg' },
   { name: 'Carole OS', state: 'Growing', accent: 'sage', spark: 'Ideas, projects, people, resources, and relationships deserve to be seen together.', mightBecome: 'A visual personal operating system and external brain built around connections.', image: '/images/studio-hero.jpg' },
   { name: 'Breeder mini-app ecosystem', state: 'Spark', accent: 'blue', spark: 'Some breeder jobs may work best as small, focused tools that can still connect.', mightBecome: 'A modular strategy exploring ideas once called SpellBorn, SpellStock, SpellShow, SpellBook, SpellLedger, SpellHealth, SpellMatch, and SpellMap.', image: '/images/cattery.jpg' },
