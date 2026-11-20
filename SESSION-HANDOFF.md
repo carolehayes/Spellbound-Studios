@@ -16,7 +16,7 @@ Keep one central project data source, distinguish concept artwork from actual bu
 
 **Next:** review the shared continuity PR, then reconcile dated catalog status/milestones with each owning project before changing public claims. Confirm the intended contact delivery service and hosting state before connecting or launching anything. Existing `npm run lint` and `npm run build` are the relevant baseline checks for future source changes; this rollout did not run them.
 
-## Latest session — 2026-11-19 (America/Chicago)
+## Initial rollout session — 2026-11-19 (America/Chicago)
 
 - **Assistant:** Codex.
 - **Changes:** Established or completed the shared repository continuity entry point and session-update template; preserved existing project documentation and instructions.
@@ -25,7 +25,17 @@ Keep one central project data source, distinguish concept artwork from actual bu
 - **Decision:** One shared concise handoff; existing detailed history, architecture references and required agent workflows remain intact.
 - **Blockers:** Runtime status and any project-specific unresolved items are listed above; local work in other checkouts was not inspected or modified.
 - **Next step:** Review the documentation PR before merging; then follow the project-specific next action above.
-- **Save state:** Proposed on a separate review branch; not merged or deployed by this rollout.
+- **Save state at initial preparation:** Committed on a separate review branch. Existing hosting integrations subsequently created automatic previews where configured; no manual deployment command was issued.
+
+## Review and merge authorization — 2026-11-19 (America/Chicago)
+
+- **Assistant:** Codex.
+- **Changes:** Reviewed the documentation-only diff and corrected the initial save-state note; existing content, generated blocks and project-specific workflows remain preserved.
+- **Tests / results:** Preservation, handoff fields, documentation links and Markdown-only scope checks passed. Inspected GitHub checks and branch state; no manual application or database tests were run. Check results remain tied to their exact commit in the PR.
+- **Decision:** Carole authorized merging this PR after review. Existing hosting integrations may automatically build/deploy on branch pushes or merge; no separate deployment command is part of this task.
+- **Blockers:** No documentation-review blocker found; the application limitations above remain.
+- **Exact next step:** Once this PR is merged, continue with the project-specific development follow-up above; merge approval does not authorize unrelated application work.
+- **Save state / commit:** [PR #1](https://github.com/carolehayes/Spellbound-Studios/pull/1) records the reviewed commits and authoritative merge status. The earlier “review this PR” steps describe the initial preparation, not a request to obtain approval again.
 
 ## Update template
 
