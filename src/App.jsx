@@ -7,7 +7,7 @@ import { categoryOptions, incubatorIdeas, journalEntries, projects, statusOption
 import { formatProjectBrief, projectEmailHref, STUDIO_INBOX } from './contactBrief.js';
 
 const navItems = [
-  ['Home', '/'], ['Apps', '/apps'], ['CatteryFlow', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
+  ['Home', '/'], ['Apps', '/apps'], ['CatteryFlow', '/cattery-app'], ['Roadmap', '/progress'], ['Incubator', '/incubator'],
   ['Journal', '/journal'], ['About', '/about'], ['Contact', '/contact'],
 ];
 
@@ -168,14 +168,19 @@ function Home({ navigate }) {
         <div className="hero-copy">
           <h1>Spellbound<br />Studios</h1>
           <p className="hero-tagline">Tools for a more magical life.</p>
-          <p>We build thoughtful apps for everyday life, creativity, connection, exploration, and the unusual spaces in between.</p>
+          <p>An independent software studio creating useful web apps for breeders, photographers, creative people and curious minds. Explore working builds, behind-the-scenes development, and ideas taking shape.</p>
           <div className="button-row">
             <ButtonLink href="/apps" navigate={navigate}>Explore the Apps</ButtonLink>
-            <ButtonLink href="/progress" navigate={navigate} secondary>See What We’re Building</ButtonLink>
+            <ButtonLink href="/progress" navigate={navigate} secondary>View the Roadmap</ButtonLink>
           </div>
           <p className="handwritten">Small tools. Brighter days.</p>
         </div>
         <ImageFrame src="/images/studio-hero.jpg" alt="A warm creative studio desk with notebooks, botanicals, and a cat" className="hero-image" />
+      </section>
+
+      <section className="page-section visitor-start" aria-label="Start exploring">
+        <div><p className="section-label">Find your next favorite tool</p><h2>Start here.</h2><p>{projects.length} projects, from working software to early ideas. Every project page tells you what is built, what is next, and what you can see today.</p></div>
+        <div className="visitor-links"><Link href="/apps" navigate={navigate}><strong>Explore the portfolio</strong><span>Search by interest or development stage.</span></Link><Link href="/cattery-app" navigate={navigate}><strong>Meet CatteryFlow</strong><span>Our growing cattery-management platform.</span></Link><Link href="/contact" navigate={navigate}><strong>Have an app idea?</strong><span>Start a conversation with the studio.</span></Link></div>
       </section>
 
       <section className="category-rail" aria-label="Project categories">
@@ -305,7 +310,14 @@ function ProjectDetail({ project, navigate }) {
 
       <section className="gallery-section">
         <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{gallery.length === 0 ? 'Public project screenshots are being prepared. Private client work and unverified concepts are not presented as live software.' : hasCurrentBuild ? 'Real screenshots are labeled by source: current build, demo build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
-        <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><div className="gallery-preview"><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} loading="lazy" /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></div><p className="gallery-caption">{item.caption || project.name}</p></button>)}</div>
+        {[
+          ['Current experiences', ['Current Build', 'Demo Build', 'Public Website']],
+          ['Earlier builds', ['Earlier Build']],
+          ['Design explorations', ['Concept Design', 'Concept Direction', 'Studio Artwork']],
+        ].map(([title, labels]) => {
+          const items = gallery.map((item, index) => ({ ...item, index })).filter((item) => labels.includes(item.label));
+          return items.length > 0 && <div className="gallery-group" key={title}><h3>{title}</h3><div className="showcase-grid">{items.map((item) => <button key={`${item.src}-${item.index}`} onClick={() => setLightbox(item.index)} aria-label={`Open ${item.caption || `${project.name} image ${item.index + 1}`}`}><div className="gallery-preview"><img src={item.src} alt={item.caption || `${project.name} gallery image ${item.index + 1}`} loading="lazy" /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></div><p className="gallery-caption">{item.caption || project.name}{item.device && <small className="device-label">{item.device}</small>}</p></button>)}</div></div>;
+        })}
       </section>
 
       <section className="page-section timeline-section">
@@ -373,7 +385,7 @@ function ProgressPage({ navigate }) {
   const project = projects.find((item) => item.slug === selected);
   return (
     <main>
-      <PageIntro title="Progress">A transparent look at what we’re building—from early sparks to products taking real shape. No invented metrics, just the work as it stands.</PageIntro>
+      <PageIntro title="Studio roadmap">See what is available to explore, what is actively being built, and what is still finding its shape. Milestones are intentions, not promised release dates.</PageIntro>
       <section className="page-section progress-page">
         <label className="project-select-label">Select a project<select value={selected} onChange={(e) => setSelected(e.target.value)}><option value="studio">Studio-wide overview</option>{projects.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select><ChevronDown /></label>
         {!project ? <StudioOverview setSelected={setSelected} navigate={navigate} /> : <ProjectProgress project={project} navigate={navigate} />}
@@ -386,6 +398,13 @@ function StudioOverview({ setSelected, navigate }) {
   const statusCounts = projects.reduce((acc, project) => ({ ...acc, [project.status]: (acc[project.status] || 0) + 1 }), {});
   return (
     <>
+      <section className="roadmap-board" aria-label="Public roadmap">
+        {[
+          ['Explore now', 'Public entry points, including early builds and sign-in pages.', projects.filter((p) => p.liveUrl)],
+          ['In development', 'Working foundations or prototypes with no public entry point yet.', projects.filter((p) => !p.liveUrl && ['Live', 'Active Build', 'Prototype'].includes(p.status))],
+          ['On the horizon', 'Designs, plans and ideas; availability is not promised.', projects.filter((p) => !p.liveUrl && !['Live', 'Active Build', 'Prototype'].includes(p.status))],
+        ].map(([title, description, items]) => <article key={title}><h2>{title}</h2><p>{description}</p><ul>{items.map((p) => <li key={p.slug}><Link href={`/apps/${p.slug}`} navigate={navigate}><strong>{p.name}</strong><StatusBadge status={p.status} /><small>{p.nextMilestone}</small></Link></li>)}</ul></article>)}
+      </section>
       <div className="overview-header"><div><p className="section-label">All projects</p><h2>Studio-wide overview</h2><p>Every project below is driven by the same central data used across this site.</p></div><div className="status-summary">{Object.entries(statusCounts).map(([status, count]) => <span key={status}><strong>{count}</strong>{status}</span>)}</div></div>
       <div className="overview-grid">{projects.map((project) => {
         const complete = project.milestones.filter((item) => item.status === 'complete').length;
