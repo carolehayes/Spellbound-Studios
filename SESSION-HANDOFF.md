@@ -87,6 +87,14 @@ Keep one central project data source, distinguish concept artwork from actual bu
 - **Next:** Capture genuine phone and desktop screenshots from authorized demo fixtures, verify generated sharing previews and roadmap on production. Contact-delivery PR #6 remains separate.
 - **Release:** PR #9 merged `2d049a4f647052970928694ea059220a56a88464`; production READY. Verified public homepage, roadmap groups, Smoothie Spellbook grouped gallery and next/close lightbox, and Liminal's separate concept section. Preview HTML confirmed project-specific titles and Open Graph metadata for representative project routes and legacy CatteryFlow route, plus fallback for unknown project. Mobile screenshot capture is blocked by managed browser DevTools policy; no simulated phone screenshots were published. Device presentation uses responsive CSS; mobile runtime QA remains pending. Follow-up fixes hash navigation for Build My App, client-side tab titles, gallery ordering and roadmap wording; lint/build passed, hosted verification pending.
 
+## Launchpad milestone 1 — 2026-11-27 (America/Chicago)
+
+- **Assistant:** Codex; base `4e744a075b4a39e342ecc5f35b3106a537e5a16f`. Audited current repo, prior inventory, demo plan, contact code and open PR #6. Existing portfolio is unchanged in normal production builds.
+- **Changes:** Owner-review-only `/launchpad` with two existing public catalog records as illustrative examples, five tabs, hypothetical calculator, six acquisition modes, inert intent controls and existing manual contact link. No approved sale inventory, real lead data, permissions changes, payment or private fields. See [LAUNCHPAD-REVIEW.md](LAUNCHPAD-REVIEW.md).
+- **Tests:** Initial lint failure (Node process global) fixed by explicit import. Lint, scope/calculator assertions, normal build and review build passed; normal build excluded preview assets, both generated 16 existing share pages. Browser and hosted preview verification pending.
+- **Decision:** Review branch only, no production merge. Pricing and availability require explicit owner approval. Private settings and research drafts require genuine server-side authorization and storage design; not faked by client-side controls.
+- **Next:** Verify review deployment and obtain owner feedback/approval on the layout and scope; then implement private controls and audit model. Do not merge or publish a sales listing without explicit approval.
+
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
 - **Date / time zone:**

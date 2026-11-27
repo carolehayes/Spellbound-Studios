@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { calculateScenario, summarizeScope } from '../src/launchpadMath.js';
+const example = calculateScenario({ subscribers: 250, monthlyPrice: 19, expenses: 300, acquisitionCost: 8500 });
+assert.equal(example.gross, 4750);
+assert.equal(example.annual, 57000);
+assert.equal(example.surplus, 4450);
+assert.equal(example.recovery.toFixed(1), '1.9');
+assert.equal(calculateScenario({ subscribers: 0, monthlyPrice: 19, expenses: 300, acquisitionCost: 8500 }).recovery, null);
+assert.equal(calculateScenario({ subscribers: -50, monthlyPrice: 19 }).gross, 0);
+assert.equal(summarizeScope(null).progress, null);
+assert.equal(summarizeScope({ frozen: false, features: [{ required: true, weight: 1, status: 'verified' }] }).progress, null);
+assert.equal(summarizeScope({ frozen: true, features: [{ required: true, weight: 3, status: 'verified' }, { required: true, weight: 1, status: 'implemented' }, { required: false, weight: 50, status: 'planned' }, { required: true, weight: 9, status: 'not applicable' }] }).progress, 75);
+console.log('Launchpad calculator and scope checks passed.');

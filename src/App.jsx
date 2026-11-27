@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight, Check, ChevronDown, ExternalLink, Feather, Menu, Search,
   Sparkles, X, ZoomIn, CalendarDays, Circle, Mail, ShieldCheck, Layers3,
@@ -6,10 +6,13 @@ import {
 import { categoryOptions, incubatorIdeas, journalEntries, projects, statusOptions } from './data.js';
 import { formatProjectBrief, projectEmailHref, STUDIO_INBOX } from './contactBrief.js';
 
+const launchpadReview = import.meta.env.DEV || import.meta.env.VITE_LAUNCHPAD_REVIEW === true;
+const LaunchpadPreview = launchpadReview ? lazy(() => import('./LaunchpadPreview.jsx')) : null;
 const navItems = [
   ['Home', '/'], ['Apps', '/apps'], ['CatteryFlow', '/cattery-app'], ['Roadmap', '/progress'], ['Incubator', '/incubator'],
   ['Journal', '/journal'], ['About', '/about'], ['Contact', '/contact'],
 ];
+if (launchpadReview) navItems.splice(5, 0, ['Launchpad preview', '/launchpad']);
 
 const normalizeMedia = (item) => typeof item === 'string'
   ? { src: item, label: 'Concept Design', caption: '' }
@@ -549,6 +552,7 @@ export default function App() {
   else if (cleanPath === '/journal') page = <JournalPage navigate={navigate} />;
   else if (cleanPath === '/about') page = <AboutPage navigate={navigate} />;
   else if (cleanPath === '/contact') page = <ContactPage />;
+  else if (LaunchpadPreview && cleanPath === '/launchpad') page = <Suspense fallback={<main>Loading review preview…</main>}><LaunchpadPreview /></Suspense>;
   else page = <NotFound navigate={navigate} />;
 
   return <><Header path={path} navigate={navigate} />{page}<Footer navigate={navigate} /></>;
