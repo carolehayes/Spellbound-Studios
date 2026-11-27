@@ -187,7 +187,7 @@ function Home({ navigate }) {
       <section className="page-section featured-section">
         <SectionHeading title="Featured projects" intro="A growing collection of useful, curious tools—each one born from a real need and shaped with care." link="/apps" linkLabel="Explore all apps" navigate={navigate} />
         <div className="featured-grid">
-          {projects.filter((p) => p.featured).map((project, index) => <ProjectCard key={project.slug} project={project} navigate={navigate} wide={index === 0} />)}
+          {projects.filter((p) => p.featured).sort((a, b) => Number(b.slug === 'cattery-management') - Number(a.slug === 'cattery-management')).map((project, index) => <ProjectCard key={project.slug} project={project} navigate={navigate} wide={index === 0} />)}
         </div>
       </section>
 
@@ -303,7 +303,7 @@ function ProjectDetail({ project, navigate }) {
 
       <section className="gallery-section">
         <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{hasCurrentBuild ? 'Real screenshots are labeled by source: current build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
-        <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></button>)}</div>
+        <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><div className="gallery-preview"><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} loading="lazy" /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></div><p className="gallery-caption">{item.caption || project.name}</p></button>)}</div>
       </section>
 
       <section className="page-section timeline-section">
