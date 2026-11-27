@@ -47,6 +47,13 @@ Keep one central project data source, distinguish concept artwork from actual bu
 - **Next step:** Capture privacy-safe screenshots from the test cattery; replace historical gallery images with actual current build captures, then audit other projects and add A Helping Paw.
 - **Save state:** See the portfolio-refresh branch and its commit for the current implementation.
 
+## Portfolio refresh — 2026-11-27 (America/Chicago)
+
+- **Assistant:** Codex.
+- **Changes:** Added A Helping Paw with three actual public build screenshots and an accurately scoped early-build description. Updated CatteryFlow with its verified public features page, current brand screenshot, beta link and expanded feature summary; labeled old screenshots earlier builds. Added Carole's autonomous milestone workflow to AGENTS.md.
+- **Verification:** Public CatteryFlow features and A Helping Paw home, browse and finder rendered successfully. A Helping Paw's custom domain did not load; use its verified Vercel production URL. Internal CatteryFlow captures show a personalized beta watermark and are not included in the public repository.
+- **Next:** Continue auditing other public projects and replace stale screenshots; establish an authorized public test-cattery showcase mode before publishing internal screenshots. Add a safe portal finder/sign-in on the CatteryFlow marketing site as a separate milestone.
+
 
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
