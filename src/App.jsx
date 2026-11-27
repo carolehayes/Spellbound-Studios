@@ -138,6 +138,7 @@ function ProjectCard({ project, navigate, wide = false }) {
       <Link href={`/apps/${project.slug}`} navigate={navigate} className="project-card-image" aria-label={`View ${project.name}`}>
         <img src={project.image} alt="" />
         <StatusBadge status={project.status} />
+        {project.imageLabel && <span className="card-image-label">{project.imageLabel}</span>}
       </Link>
       <div className="project-card-copy">
         <p className="project-category">{project.categories[0]}</p>
@@ -415,7 +416,7 @@ function IncubatorPage({ navigate }) {
       <PageIntro title="Incubator" image="/images/liminal.jpg">A worktable for early ideas, active questions, and promising possibilities—looser than the main studio, but never careless.</PageIntro>
       <section className="page-section incubator-page">
         <div className="incubator-note"><Feather /><p className="handwritten">Practical tools. Creative ideas. A kinder tech future.</p></div>
-        <SectionHeading title="Three current sparks" intro="Different paths, with one shared intention: make something helpful, thoughtful, and alive to the people using it." />
+        <SectionHeading title={`${incubatorIdeas.length} current sparks`} intro="Different paths, with one shared intention: make something helpful, thoughtful, and alive to the people using it." />
         <div className="idea-stack">{incubatorIdeas.map((idea, index) => <article key={idea.name}><span className="note-number">0{index + 1}</span><img src={idea.image} alt="" /><div><span className={`idea-state ${idea.state.toLowerCase()}`}>{idea.state}</span><h2>{idea.name}</h2><p><strong>The spark</strong>{idea.spark}</p><p><strong>What it might become</strong>{idea.mightBecome}</p></div></article>)}</div>
       </section>
       <ClosingCta navigate={navigate} />
@@ -462,7 +463,7 @@ function ContactPage() {
       <section className="page-section contact-layout" id="build">
         <aside><p className="section-label">A collaborative, personal approach</p><h2>Start with the idea—not the jargon.</h2><p>You do not need a perfect brief. Tell us who the idea is for, what it changes, and what you hope it might do. The first step is a clear conversation about fit, scope, and a useful way forward.</p><div className="contact-promise"><Mail /><p><strong>Get your idea to the studio</strong>Prepare your project brief below, then open it in your email app and send it to us. You can also email <a href={`mailto:${STUDIO_INBOX}`}>{STUDIO_INBOX}</a> directly.</p></div></aside>
         <div className="form-wrap">
-          <ProjectForm onSubmit={handleSubmit} />
+          <ProjectForm onSubmit={handleSubmit} onChange={() => setDraft(null)} />
           {draft && <div className="form-success" role="status"><Sparkles /><h2>Your brief is ready to email.</h2><p>Open your email app to send the prepared message. Nothing has been sent yet.</p><a className="button" href={projectEmailHref(draft)}>Open email draft <ArrowRight size={17} /></a><details><summary>No email app? Copy the brief instead.</summary><textarea aria-label="Prepared project brief" readOnly rows="10" value={formatProjectBrief(draft)} /><p>Paste it into a message to {STUDIO_INBOX}.</p></details></div>}
         </div>
       </section>
@@ -471,9 +472,9 @@ function ContactPage() {
   );
 }
 
-function ProjectForm({ onSubmit }) {
+function ProjectForm({ onSubmit, onChange }) {
   return (
-    <form className="project-form" onSubmit={onSubmit}>
+    <form className="project-form" onSubmit={onSubmit} onChange={onChange}>
       <div className="form-heading"><p className="section-label">Project intake</p><h2>Tell me about your idea</h2><p>A few honest notes are more useful than a polished pitch.</p></div>
       <div className="form-grid"><label>Name<input name="name" required autoComplete="name" /></label><label>Email<input name="email" type="email" required autoComplete="email" /></label></div>
       <label>Project or app idea<input name="idea" required placeholder="A short working title or summary" /></label>
