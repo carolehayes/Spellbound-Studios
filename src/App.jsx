@@ -18,16 +18,17 @@ const normalizeMedia = (item) => typeof item === 'string'
 const mediaTone = (label = '') => label.toLowerCase().replaceAll(' ', '-');
 
 function useRouter() {
-  const [path, setPath] = useState(`${window.location.pathname}${window.location.search}`);
+  const [path, setPath] = useState(`${window.location.pathname}${window.location.search}${window.location.hash}`);
   useEffect(() => {
-    const onPop = () => setPath(`${window.location.pathname}${window.location.search}`);
+    const onPop = () => setPath(`${window.location.pathname}${window.location.search}${window.location.hash}`);
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
   const navigate = (href) => {
     window.history.pushState({}, '', href);
     setPath(href);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (href.includes('#')) requestAnimationFrame(() => document.getElementById(href.split('#')[1])?.scrollIntoView({ behavior: 'smooth' }));
+    else window.scrollTo({ top: 0, behavior: 'instant' });
   };
   return { path, navigate };
 }
@@ -71,7 +72,7 @@ function Logo({ navigate }) {
 
 function Header({ path, navigate }) {
   const [open, setOpen] = useState(false);
-  const currentPath = path.split('?')[0];
+  const currentPath = path.split(/[?#]/)[0];
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -291,7 +292,8 @@ function AppsPage({ path, navigate }) {
 function ProjectDetail({ project, navigate }) {
   const [lightbox, setLightbox] = useState(null);
   const related = journalEntries.filter((entry) => entry.project.includes(project.name.split(' ')[0]) || entry.project === 'Spellbound Studios').slice(0, 2);
-  const gallery = project.screenshots.map(normalizeMedia);
+  const sourceOrder = ['Current Build', 'Demo Build', 'Public Website', 'Earlier Build', 'Concept Design', 'Concept Direction', 'Studio Artwork'];
+  const gallery = project.screenshots.map(normalizeMedia).sort((a, b) => sourceOrder.indexOf(a.label) - sourceOrder.indexOf(b.label));
   const hasCurrentBuild = gallery.some((item) => ['Current Build', 'Demo Build', 'Public Website', 'Earlier Build'].includes(item.label));
   return (
     <main className={`project-detail accent-${project.accent}`}>
@@ -401,7 +403,7 @@ function StudioOverview({ setSelected, navigate }) {
       <section className="roadmap-board" aria-label="Public roadmap">
         {[
           ['Explore now', 'Public entry points, including early builds and sign-in pages.', projects.filter((p) => p.liveUrl)],
-          ['In development', 'Working foundations or prototypes with no public entry point yet.', projects.filter((p) => !p.liveUrl && ['Live', 'Active Build', 'Prototype'].includes(p.status))],
+          ['In development', 'Projects with no public app link in this portfolio yet.', projects.filter((p) => !p.liveUrl && ['Live', 'Active Build', 'Prototype'].includes(p.status))],
           ['On the horizon', 'Designs, plans and ideas; availability is not promised.', projects.filter((p) => !p.liveUrl && !['Live', 'Active Build', 'Prototype'].includes(p.status))],
         ].map(([title, description, items]) => <article key={title}><h2>{title}</h2><p>{description}</p><ul>{items.map((p) => <li key={p.slug}><Link href={`/apps/${p.slug}`} navigate={navigate}><strong>{p.name}</strong><StatusBadge status={p.status} /><small>{p.nextMilestone}</small></Link></li>)}</ul></article>)}
       </section>
@@ -529,13 +531,18 @@ function formatDate(value) {
 
 export default function App() {
   const { path, navigate } = useRouter();
-  const cleanPath = path.split('?')[0].replace(/\/$/, '') || '/';
+  const cleanPath = path.split(/[?#]/)[0].replace(/\/$/, '') || '/';
+  const activeProject = cleanPath === '/cattery-app' ? projects.find((p) => p.slug === 'cattery-management') : projects.find((p) => cleanPath === `/apps/${p.slug}`);
+  useEffect(() => {
+    const title = activeProject ? activeProject.name : { '/apps': 'Apps', '/progress': 'Studio roadmap', '/incubator': 'Incubator', '/journal': 'Journal', '/about': 'About', '/contact': 'Build My App' }[cleanPath];
+    document.title = title ? `${title} | Spellbound Studios` : 'Spellbound Studios — Tools for a more magical life.';
+  }, [activeProject, cleanPath]);
   let page;
   if (cleanPath === '/') page = <Home navigate={navigate} />;
-  else if (cleanPath === '/apps') page = <AppsPage path={path} navigate={navigate} />;
+  else if (cleanPath === '/apps') page = <AppsPage key={path} path={path} navigate={navigate} />;
   else if (cleanPath.startsWith('/apps/')) {
     const project = projects.find((item) => item.slug === cleanPath.split('/')[2]);
-    page = project ? <ProjectDetail project={project} navigate={navigate} /> : <NotFound navigate={navigate} />;
+    page = project ? <ProjectDetail key={project.slug} project={project} navigate={navigate} /> : <NotFound navigate={navigate} />;
   } else if (cleanPath === '/cattery-app') page = <ProjectDetail project={projects.find((item) => item.slug === 'cattery-management')} navigate={navigate} />;
   else if (cleanPath === '/progress') page = <ProgressPage navigate={navigate} />;
   else if (cleanPath === '/incubator') page = <IncubatorPage navigate={navigate} />;
