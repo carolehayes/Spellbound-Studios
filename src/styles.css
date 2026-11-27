@@ -107,6 +107,7 @@ p { line-height: 1.72; color: var(--muted); }
 .project-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
 .project-card:hover .project-card-image img { transform: scale(1.025); }
 .project-card-image .status-badge { position: absolute; left: 14px; bottom: 13px; }
+.card-image-label { position: absolute; right: 14px; bottom: 13px; padding: 6px 9px; background: rgba(255,253,248,.92); border-radius: 999px; color: var(--ink); font-size: .68rem; font-weight: 700; }
 .project-card-copy { min-height: 200px; padding: 23px 62px 22px 24px; position: relative; }
 .project-card-copy h3 { margin: 0 0 9px; font-size: 1.48rem; line-height: 1.1; }
 .project-card-copy > p:not(.project-category):not(.display-note) { margin: 0; font-size: .8rem; line-height: 1.55; }
