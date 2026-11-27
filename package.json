@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build && node scripts/build-share-pages.mjs",
     "preview": "vite preview --host 0.0.0.0",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:launchpad": "node scripts/test-launchpad.mjs"
   },
   "dependencies": {
     "@eslint/js": "latest",
