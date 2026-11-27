@@ -330,11 +330,14 @@ p { line-height: 1.72; color: var(--muted); }
 .project-form textarea { resize: vertical; }
 .project-form input:focus, .project-form textarea:focus, .project-form select:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(102,112,82,.12); }
 .project-form .button { width: fit-content; margin-top: 8px; }
-.form-success { min-height: 570px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.form-success { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .form-success > svg { width: 45px; height: 45px; color: var(--mauve); }
 .form-success h2 { margin: 22px 0 7px; font-size: 2.8rem; }
 .form-success p { max-width: 500px; }
 .form-success .button { margin-top: 15px; }
+.form-success details { width: 100%; margin: 18px 0 0; text-align: left; }
+.form-success summary { cursor: pointer; font-weight: 700; }
+.form-success textarea { width: 100%; margin-top: 12px; padding: 12px; font: inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; resize: vertical; }
 .pricing-section { width: min(1320px, calc(100% - 64px)); margin: 0 auto 100px; padding: 55px; border-radius: 18px; background: #e9e3d8; }
 .pricing-section > div:first-child { max-width: 700px; }
 .pricing-section h2 { margin-bottom: 10px; font-size: 2.8rem; }

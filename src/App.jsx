@@ -4,6 +4,7 @@ import {
   Sparkles, X, ZoomIn, CalendarDays, Circle, Mail, ShieldCheck, Layers3,
 } from 'lucide-react';
 import { categoryOptions, incubatorIdeas, journalEntries, projects, statusOptions } from './data.js';
+import { formatProjectBrief, projectEmailHref, STUDIO_INBOX } from './contactBrief.js';
 
 const navItems = [
   ['Home', '/'], ['Apps', '/apps'], ['CatteryFlow', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
@@ -297,12 +298,12 @@ function ProjectDetail({ project, navigate }) {
       </section>
 
       <section className="page-section detail-overview">
-        <div><p className="section-label">What it is</p><h2>{hasCurrentBuild ? 'A working project with room to grow.' : 'An idea with room to become real.'}</h2><p>{project.longDescription}</p></div>
+        <div><p className="section-label">What it is</p><h2>{hasCurrentBuild ? 'A working project with room to grow.' : gallery.length === 0 && ['Active Build', 'Prototype'].includes(project.status) ? 'A working project, with a public showcase in preparation.' : 'An idea with room to become real.'}</h2><p>{project.longDescription}</p></div>
         <div><p className="section-label">Key features</p><ul className="feature-list">{project.features.map((feature) => <li key={feature}><Check size={16} />{feature}</li>)}</ul></div>
       </section>
 
       <section className="gallery-section">
-        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{hasCurrentBuild ? 'Real screenshots are labeled by source: current build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
+        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{gallery.length === 0 ? 'Public project screenshots are being prepared. Private client work and unverified concepts are not presented as live software.' : hasCurrentBuild ? 'Real screenshots are labeled by source: current build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
         <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><div className="gallery-preview"><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} loading="lazy" /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></div><p className="gallery-caption">{item.caption || project.name}</p></button>)}</div>
       </section>
 
@@ -449,20 +450,20 @@ function AboutPage({ navigate }) {
 }
 
 function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
+  const [draft, setDraft] = useState(null);
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = Object.fromEntries(new FormData(event.currentTarget));
-    localStorage.setItem('spellbound-studios-project-brief', JSON.stringify({ ...formData, savedAt: new Date().toISOString() }));
-    setSubmitted(true);
+    setDraft(formData);
   };
   return (
     <main>
       <PageIntro title="Build My App" image="/images/studio-hero.jpg">Have an app idea that will not leave you alone? Let’s give it shape, find the clearest first version, and see what it could become.</PageIntro>
       <section className="page-section contact-layout" id="build">
-        <aside><p className="section-label">A collaborative, personal approach</p><h2>Start with the idea—not the jargon.</h2><p>You do not need a perfect brief. Tell us who the idea is for, what it changes, and what you hope it might do. The first step is a clear conversation about fit, scope, and a useful way forward.</p><div className="contact-promise"><Mail /><p><strong>What happens in this first version?</strong>Your answers are saved only in this browser as a draft. No message is sent until a studio inbox is connected before launch.</p></div></aside>
+        <aside><p className="section-label">A collaborative, personal approach</p><h2>Start with the idea—not the jargon.</h2><p>You do not need a perfect brief. Tell us who the idea is for, what it changes, and what you hope it might do. The first step is a clear conversation about fit, scope, and a useful way forward.</p><div className="contact-promise"><Mail /><p><strong>Get your idea to the studio</strong>Prepare your project brief below, then open it in your email app and send it to us. You can also email <a href={`mailto:${STUDIO_INBOX}`}>{STUDIO_INBOX}</a> directly.</p></div></aside>
         <div className="form-wrap">
-          {submitted ? <div className="form-success"><Sparkles /><h2>Your project brief is saved.</h2><p>This preview keeps it on this device only—it has not been sent. You can return and update it while the live inbox connection is being prepared.</p><button className="button" onClick={() => setSubmitted(false)}>Edit my brief <ArrowRight size={17} /></button></div> : <ProjectForm onSubmit={handleSubmit} />}
+          <ProjectForm onSubmit={handleSubmit} />
+          {draft && <div className="form-success" role="status"><Sparkles /><h2>Your brief is ready to email.</h2><p>Open your email app to send the prepared message. Nothing has been sent yet.</p><a className="button" href={projectEmailHref(draft)}>Open email draft <ArrowRight size={17} /></a><details><summary>No email app? Copy the brief instead.</summary><textarea aria-label="Prepared project brief" readOnly rows="10" value={formatProjectBrief(draft)} /><p>Paste it into a message to {STUDIO_INBOX}.</p></details></div>}
         </div>
       </section>
       <PricingExamples />
@@ -483,7 +484,7 @@ function ProjectForm({ onSubmit }) {
       <div className="form-grid"><label>Desired timing<input name="timing" placeholder="Flexible, this season, a date…" /></label><label>Budget range<select name="budget" defaultValue="Unsure"><option>Unsure</option><option>Under $5k</option><option>$5k–$15k</option><option>$15k–$30k</option><option>$30k+</option></select></label></div>
       <label>Reference links<input name="references" type="url" placeholder="https://" /></label>
       <label>Anything else?<textarea name="anythingElse" rows="3" /></label>
-      <button className="button" type="submit">Save my project brief <ArrowRight size={17} /></button>
+      <button className="button" type="submit">Prepare my email <ArrowRight size={17} /></button>
     </form>
   );
 }
