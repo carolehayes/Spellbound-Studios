@@ -42,3 +42,6 @@ Spellbound Studios itself is the portfolio and project hub. CatteryFlow's market
 - Event website design studio: retain within Spellbound Celebrations initially; evaluate an independent editor after testing the reusable themes and publication workflows.
 - Photography product designer: potential independent keepsake and print-design product; currently a direction within the photography portal, not a released product.
 - Wedding photography command center: already has its own catalog entry; prioritize a fictional event demonstration rather than creating a duplicate listing.
+- CatteryFlow focused breeder tools: evaluate independent calendar, selection, health, litter and waitlist experiences against one shared data model; do not fork records or claim independent releases.
+
+See [DEMO-SHOWCASE-PLAN.md](DEMO-SHOWCASE-PLAN.md) for a prioritized extraction checklist and fictional fixture/capture specifications.

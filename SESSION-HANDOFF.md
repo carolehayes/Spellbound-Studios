@@ -79,6 +79,13 @@ Keep one central project data source, distinguish concept artwork from actual bu
 - **Next:** Prepare owner-authorized, fictional sample workspaces, then capture real Liminal, Album Studio, Celebrations, wedding command center, CatteryFlow and AI Group Chat interiors. Contact-delivery PR #6 remains separate and unmerged.
 - **Production verification:** [PR #7](https://github.com/carolehayes/Spellbound-Studios/pull/7) merged as `f7f0e7813eaa96f535a4f8d7c676871113fb114f`; production READY. All seven image URLs and both preview routes returned HTTP 200. On the custom domain, verified the 16-project directory, Album Studio detail and new gallery entries for all four projects; opened HAUNT's demo image in the full-size lightbox and confirmed it rendered. The documented Liminal visual prototype route returns 404 on production. Updated Liminal status based on its source handoff and repository README, not an authenticated product test.
 
+## Linktree debut polish — 2026-11-27 (America/Chicago)
+
+- **Assistant:** Codex; base `b3e8058d123f3ab09ed0b5b4c826dba9866d10b6`.
+- **Changes:** Clarified the independent studio positioning and first-visit links; built a status-derived public roadmap; grouped real current, historic and concept screenshots with responsive presentation; generated individual crawler-visible social metadata pages at build time. Expanded reusable product candidate inventory and created [DEMO-SHOWCASE-PLAN.md](DEMO-SHOWCASE-PLAN.md) with fictional fixtures and privacy acceptance criteria.
+- **Verification:** Local lint and build passed; 16 share pages generated. Hosted checks pending release. Private app interiors remain unavailable; no new private screenshots, account actions, or contact provider changes.
+- **Next:** Capture genuine phone and desktop screenshots from authorized demo fixtures, verify generated sharing previews and roadmap on production. Contact-delivery PR #6 remains separate.
+
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
 - **Date / time zone:**

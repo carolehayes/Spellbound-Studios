@@ -1,5 +1,7 @@
 {
   "rewrites": [
-    { "source": "/((?!api/|assets/|images/).*)", "destination": "/index.html" }
+    { "source": "/apps/:slug(smoothie-spellbook|kitchen-spellbook|cattery-management|a-helping-paw|ai-group-chat|community-compass|spellbound-celebrations|wedding-photography-platform|album-studio|spellbound-photography-portal|intention-studio|phoenix-chat|holy-gossip|liminal-dream-journal|haunt|kitten-corner)", "destination": "/share-pages/:slug.html" },
+    { "source": "/cattery-app", "destination": "/share-pages/cattery-management.html" },
+    { "source": "/((?!api/|assets/|images/|share-pages/).*)", "destination": "/index.html" }
   ]
 }
