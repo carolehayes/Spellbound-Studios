@@ -287,7 +287,7 @@ function ProjectDetail({ project, navigate }) {
   const [lightbox, setLightbox] = useState(null);
   const related = journalEntries.filter((entry) => entry.project.includes(project.name.split(' ')[0]) || entry.project === 'Spellbound Studios').slice(0, 2);
   const gallery = project.screenshots.map(normalizeMedia);
-  const hasCurrentBuild = gallery.some((item) => ['Current Build', 'Public Website', 'Earlier Build'].includes(item.label));
+  const hasCurrentBuild = gallery.some((item) => ['Current Build', 'Demo Build', 'Public Website', 'Earlier Build'].includes(item.label));
   return (
     <main className={`project-detail accent-${project.accent}`}>
       <section className="project-hero">
@@ -304,7 +304,7 @@ function ProjectDetail({ project, navigate }) {
       </section>
 
       <section className="gallery-section">
-        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{gallery.length === 0 ? 'Public project screenshots are being prepared. Private client work and unverified concepts are not presented as live software.' : hasCurrentBuild ? 'Real screenshots are labeled by source: current build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
+        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{gallery.length === 0 ? 'Public project screenshots are being prepared. Private client work and unverified concepts are not presented as live software.' : hasCurrentBuild ? 'Real screenshots are labeled by source: current build, demo build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
         <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><div className="gallery-preview"><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} loading="lazy" /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></div><p className="gallery-caption">{item.caption || project.name}</p></button>)}</div>
       </section>
 
