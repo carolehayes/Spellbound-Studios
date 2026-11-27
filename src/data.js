@@ -53,15 +53,14 @@ export const projects = [
   },
   {
     slug: 'cattery-management',
-    name: 'Cattery Management',
-    displayNote: 'Name in progress',
+    name: 'CatteryFlow',
     tagline: 'A calmer operating system for thoughtful breeders.',
     shortDescription: 'One organized home for cats, litters, kittens, families, health, paperwork, communication, and daily operations.',
     longDescription: 'A full cattery operating system built around the real shape of breeder work: cats, litters, kittens, families, waitlists, health, contracts, invoices and payments, communications, guardians, and inventory. The owner portal and kitten selection workflows live inside this product—not as separate apps.',
-    categories: ['Cats & Breeding'], status: 'Active Build', phase: 'Core build', accent: 'blue', image: '/images/cattery.jpg', liveUrl: 'https://spellbound-cattery-app.vercel.app', featured: true, lastUpdated: '2026-10-03',
-    currentFocus: 'Bringing related breeder workflows into one coherent system.', nextMilestone: 'Complete the connective workflows between kittens, families, and records.', notes: 'The final product name is intentionally still open.',
+    categories: ['Cats & Breeding'], status: 'Active Build', phase: 'Feature development', accent: 'blue', image: '/images/cattery.jpg', imageLabel: 'Concept Direction', liveUrl: 'https://catteryflow.com', liveLinkLabel: 'Visit CatteryFlow', betaUrl: 'https://beta.catteryflow.app/#beta-readiness/join', featured: true, lastUpdated: '2026-11-26',
+    currentFocus: 'Preparing a customizable cattery management experience for early beta testers.', nextMilestone: 'Gather beta feedback and refine onboarding and daily breeder workflows.', notes: 'CatteryFlow is in active development. Screens shown here are historical build captures; the product is evolving.',
     features: ['Cats, litters, and kittens', 'Families and waitlist', 'Health records', 'Contracts, invoices, and payments', 'Communications and guardians', 'Inventory', 'Built-in owner portal', 'Built-in kitten selection workflow'],
-    milestones: makeMilestones(3), recentlyCompleted: ['Product boundaries clarified', 'Portal and selections confirmed as integrated workflows'], workingOn: ['Core operating records', 'Connected family journey'], nextUp: ['Refine permissions', 'Simplify daily breeder views'], backlog: ['Modular breeder tool connections', 'Optional public-site widgets'], screenshots: [
+    milestones: makeMilestones(4), recentlyCompleted: ['CatteryFlow name and brand established', 'Public beta readiness questionnaire prepared', 'Portal and selections integrated into the product direction'], workingOn: ['Beta onboarding', 'Connected family journey'], nextUp: ['Gather beta feedback', 'Refine daily breeder views'], backlog: ['Modular breeder tool connections', 'Optional public-site widgets'], screenshots: [
       { src: '/images/screenshots/cattery/home.png', label: 'Current Build', caption: 'Secure cattery management sign-in' },
       { src: '/images/screenshots/cattery/store.png', label: 'Current Build', caption: 'Public kitten storefront' },
       { src: '/images/screenshots/cattery/litter-calendar.png', label: 'Current Build', caption: 'Public litter calendar' },
@@ -175,7 +174,7 @@ export const journalEntries = [
   { date: '2026-10-03', project: 'Holy Gossip', title: 'A missing project returns to the wall', summary: 'Holy Gossip joins the studio directory with real build captures and its playful-but-careful storytelling promise intact.', tags: ['story', 'faith', 'studio'] },
   { date: '2026-10-03', project: 'Spellbound Studios', title: 'A studio takes shape', summary: 'The first public studio structure comes together around a shared design language and one central source of project truth.', tags: ['studio', 'foundation'] },
   { date: '2026-10-02', project: 'Phoenix Chat', title: 'Preservation needs provenance', summary: 'A clear principle: genuine access and thoughtful reconstruction can both matter, but they must never be confused.', tags: ['ai', 'transparency'] },
-  { date: '2026-10-01', project: 'Cattery Management', title: 'One connected breeder journey', summary: 'Owner access and kitten selections belong inside the operating system, close to the records and people they serve.', tags: ['product', 'cats'] },
+  { date: '2026-10-01', project: 'CatteryFlow', title: 'One connected breeder journey', summary: 'Owner access and kitten selections belong inside the operating system, close to the records and people they serve.', tags: ['product', 'cats'] },
   { date: '2026-09-30', project: 'Liminal Dream Journal', title: 'Keep the raw dream', summary: 'The original dictated memory remains alongside any cleaned or interpreted version.', tags: ['dreams', 'design principle'] },
 ];
 

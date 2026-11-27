@@ -39,6 +39,15 @@ Keep one central project data source, distinguish concept artwork from actual bu
 
 ## Update template
 
+## Portfolio refresh — 2026-11-26 (America/Chicago)
+
+- **Assistant:** Codex.
+- **Changes:** Updated the catalog and navigation to CatteryFlow, preserved `/cattery-app` as a route to its current showcase, added official site and beta-readiness links, and retired the public naming poll without deleting its code or data. Preserved historical gallery captures and distinguished them from the concept hero.
+- **Verification:** Local lint and production build passed. Vercel confirmed the official CatteryFlow domain; live browser acceptance and new screenshot collection remain pending because the local Chromium executable is unavailable.
+- **Next step:** Capture privacy-safe screenshots from the test cattery; replace historical gallery images with actual current build captures, then audit other projects and add A Helping Paw.
+- **Save state:** See the portfolio-refresh branch and its commit for the current implementation.
+
+
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
 - **Date / time zone:**

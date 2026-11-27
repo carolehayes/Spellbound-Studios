@@ -3,11 +3,10 @@ import {
   ArrowRight, Check, ChevronDown, ExternalLink, Feather, Menu, Search,
   Sparkles, X, ZoomIn, CalendarDays, Circle, Mail, ShieldCheck, Layers3,
 } from 'lucide-react';
-import CatteryAppPage from './CatteryAppPage.jsx';
 import { categoryOptions, incubatorIdeas, journalEntries, projects, statusOptions } from './data.js';
 
 const navItems = [
-  ['Home', '/'], ['Apps', '/apps'], ['Cattery App', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
+  ['Home', '/'], ['Apps', '/apps'], ['CatteryFlow', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
   ['Journal', '/journal'], ['About', '/about'], ['Contact', '/contact'],
 ];
 
@@ -292,7 +291,7 @@ function ProjectDetail({ project, navigate }) {
       <section className="project-hero">
         <Link href="/apps" navigate={navigate} className="back-link">← All apps</Link>
         <div className="project-hero-copy">
-          <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div>{project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">View current build <ExternalLink size={15} /></a>}</div>
+          <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div><div className="button-row">{project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">{project.liveLinkLabel || 'View current build'} <ExternalLink size={15} /></a>}{project.betaUrl && <a className="project-live-link" href={project.betaUrl} target="_blank" rel="noreferrer">Join the beta <ExternalLink size={15} /></a>}</div></div>
           <ImageFrame src={project.image} alt={`${project.name} project preview`} label={project.imageLabel || 'Concept Design'} />
         </div>
       </section>
@@ -516,7 +515,7 @@ export default function App() {
   else if (cleanPath.startsWith('/apps/')) {
     const project = projects.find((item) => item.slug === cleanPath.split('/')[2]);
     page = project ? <ProjectDetail project={project} navigate={navigate} /> : <NotFound navigate={navigate} />;
-  } else if (cleanPath === '/cattery-app') page = <CatteryAppPage />;
+  } else if (cleanPath === '/cattery-app') page = <ProjectDetail project={projects.find((item) => item.slug === 'cattery-management')} navigate={navigate} />;
   else if (cleanPath === '/progress') page = <ProgressPage navigate={navigate} />;
   else if (cleanPath === '/incubator') page = <IncubatorPage navigate={navigate} />;
   else if (cleanPath === '/journal') page = <JournalPage navigate={navigate} />;
