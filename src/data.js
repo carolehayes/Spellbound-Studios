@@ -34,8 +34,8 @@ export const projects = [
       { src: '/images/screenshots/smoothie/smoothie-current-home.png', label: 'Current Build', caption: 'Home, recipe discovery and Ask the Spellbook' },
       { src: '/images/screenshots/smoothie/smoothie-current-recipes.png', label: 'Current Build', caption: 'Recipe library and filters' },
       { src: '/images/screenshots/smoothie/smoothie-current-detail.png', label: 'Current Build', caption: 'Recipe detail with servings, nutrition and symbolic ingredient associations' },
-      { src: '/images/screenshots/smoothie/pantry.png', label: 'Earlier Build', caption: 'Pantry and Use What I Have' },
-      { src: '/images/screenshots/smoothie/plan.png', label: 'Earlier Build', caption: 'Flexible weekly planning' },
+      { src: '/images/screenshots/smoothie/smoothie-current-pantry.png', label: 'Current Build', caption: 'Visual pantry inventory, ingredient filters and scan entry point' },
+      { src: '/images/screenshots/smoothie/smoothie-current-plan.png', label: 'Current Build', caption: 'Weekly planning templates and customizable schedule' },
     ],
   },
   {
@@ -79,6 +79,7 @@ export const projects = [
       { src: '/images/screenshots/helping-paw/paw-home.png', label: 'Current Build', caption: 'A Helping Paw home and support pathways' },
       { src: '/images/screenshots/helping-paw/paw-browse.png', label: 'Current Build', caption: 'Resource directory with filters and last-checked dates' },
       { src: '/images/screenshots/helping-paw/paw-finder.png', label: 'Current Build', caption: 'Guided finder for pet families' },
+      { src: '/images/screenshots/helping-paw/paw-help.png', label: 'Current Build', caption: 'Ways to help through official organizations, with example Dallas location' },
     ],
   },
   {
@@ -108,6 +109,12 @@ export const projects = [
     longDescription: 'The wedding photography platform was built around the needs of a real wedding, with a practical field guide and coordinated planning experience. It is an independent project and a potential foundation for reusable photography tools.',
     categories: ['Creativity & Self'], status: 'Prototype', phase: 'Feature development', accent: 'berry', image: '/images/studio-hero.jpg', imageLabel: 'Studio Artwork', featured: false, lastUpdated: '2026-11-27', currentFocus: 'Separating reusable photographer tools from private event details.', nextMilestone: 'Create a fictional event demo for public viewing.', notes: 'An event-specific command center and source project exist. Original client names, schedules, gallery content and media are kept private.',
     features: ['Event timelines and field-guide workflows', 'Photo planning and coordination', 'Mobile-first photographer experience', 'Potential reusable event templates'], milestones: makeMilestones(4), recentlyCompleted: ['Event-specific command center created'], workingOn: ['Reusable workflow direction'], nextUp: ['Prepare anonymized demo'], backlog: ['Generalized photography event tools'], screenshots: [],
+  },
+  {
+    slug: 'album-studio', name: 'Album Studio', tagline: 'Turn a collection of moments into a beautiful story.', shortDescription: 'A potential standalone photo-album designer, originating in a working wedding project.',
+    longDescription: 'Album Studio is a working title for a reusable album design experience. The existing wedding platform contains album-editing workflows, including arranging pages, selecting layouts, adjusting image placement and experimenting with touch gestures. The standalone product would build on that foundation for photographers, families and other creative projects.',
+    categories: ['Creativity & Self'], status: 'Prototype', phase: 'Feature development', accent: 'berry', image: '/images/studio-hero.jpg', imageLabel: 'Studio Artwork', featured: false, lastUpdated: '2026-11-27', currentFocus: 'Separating reusable editing workflows from the private wedding project.', nextMilestone: 'Prepare a fictional album showcase using approved sample images.', notes: 'The editor originated inside a private event platform. A standalone release is not yet available; original wedding photos and client albums are not shown.',
+    features: ['Page and spread composition', 'Layout selection', 'Image crop and repositioning', 'Editable photo placement and layers', 'Touch editing practice', 'Potential reusable album templates'], milestones: makeMilestones(3), recentlyCompleted: ['Album editor workflows developed within the wedding platform'], workingOn: ['Standalone product scope', 'Public-safe demonstration'], nextUp: ['Capture sample album editing screens', 'Assess reusable editor architecture'], backlog: ['Export and print integrations', 'Additional album formats'], screenshots: [],
   },
   {
     slug: 'spellbound-photography-portal', name: 'Spellbound Photography Portal', tagline: 'From the first booking to the finished memories.', shortDescription: 'A working photography booking and client-gallery platform for sessions, deposits, add-ons and photo products.',
@@ -159,8 +166,8 @@ export const projects = [
       { src: '/images/screenshots/holy-gossip/holy-current-library.png', label: 'Current Build', caption: 'Story library and featured collections' },
       { src: '/images/screenshots/holy-gossip/holy-current-story.png', label: 'Current Build', caption: 'A working story with format, storyteller, length and energy options' },
       { src: '/images/screenshots/holy-gossip/holy-current-preferences.png', label: 'Current Build', caption: 'Set your preferred story format and voice' },
-      { src: '/images/screenshots/holy-gossip/jesus.png', label: 'Earlier Build', caption: 'Jesus story and question explorer' },
-      { src: '/images/screenshots/holy-gossip/themes.png', label: 'Earlier Build', caption: 'Theme and atmosphere selector' },
+      { src: '/images/screenshots/holy-gossip/holy-current-jesus.png', label: 'Current Build', caption: 'Dedicated Jesus discovery and story explorer' },
+      { src: '/images/screenshots/holy-gossip/holy-current-themes.png', label: 'Current Build', caption: 'Browse story themes and choose your vibe' },
     ],
   },
   {
@@ -180,7 +187,8 @@ export const projects = [
     features: ['Looks and outfit inspiration', 'Events and Goth Radar', 'Venues, music, and deals', 'Goth Passport', 'Community and saved items', 'Virtual wardrobe', 'Full-body photo paper-doll try-on'], milestones: makeMilestones(2), recentlyCompleted: ['Experience pillars organized', 'Light-site accent direction defined'], workingOn: ['Wardrobe concept', 'Discovery structure'], nextUp: ['Photo privacy requirements', 'Local radar prototype'], backlog: ['Creator profiles', 'Travel collections'], screenshots: [
       { src: '/images/screenshots/haunt/home.png', label: 'Earlier Build', caption: 'HAUNT home and discovery paths' },
       { src: '/images/screenshots/haunt/haunt-current-looks.png', label: 'Current Build', caption: 'Prototype outfit browsing with sample photos' },
-      { src: '/images/screenshots/haunt/dressing-room.png', label: 'Earlier Build', caption: 'Dressing Room experience' },
+      { src: '/images/screenshots/haunt/haunt-current-dressing.png', label: 'Current Build', caption: 'Dressing Room entry and styling modes' },
+      { src: '/images/screenshots/haunt/haunt-current-demo.png', label: 'Demo Build', caption: 'Paper Doll styling with the built-in demo photo; AI try-on is not connected' },
     ],
   },
   {

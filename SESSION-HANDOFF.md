@@ -70,6 +70,14 @@ Keep one central project data source, distinguish concept artwork from actual bu
 - **Production verification:** [PR #4](https://github.com/carolehayes/Spellbound-Studios/pull/4) merged at `1fc0387c1bd422f9b9afd515e81d2d08c977aa8f`; Vercel READY. Browser verified 15 directory projects, six new/corrected detail pages and their hero assets, seven incubator entries and the prepared email link with fictional data; recipient and complete encoded content correct, no actual email sent. Local lint/build and 49 image references passed. Follow-up polish makes Incubator count data-driven, labels card artwork, and invalidates an email draft when inputs change.
 
 
+## Screenshot expansion — 2026-11-27 (America/Chicago)
+
+- **Assistant:** Codex; base `877983abf88074de5bd508f7c4e6c5f3963eb569`.
+- **Changes:** Captured seven real additional production screens across Smoothie Spellbook (pantry and weekly plan), Holy Gossip (Jesus and themes), HAUNT (Dressing Room and built-in sample styling), and A Helping Paw (ways to help, example Dallas location). Replaced older gallery references where appropriate; explicitly marked the local sample styling as a demo without connected AI. Added Album Studio as a potential standalone product originating in a private wedding editor; updated inventory and breakout candidates. No client images or records were included.
+- **Verification:** Browser rendered and individually inspected all seven captures; restored the original A Helping Paw location. Local lint/build and 52 project image references passed. Production verification pending deployment of this change.
+- **Blockers:** Liminal current build and album touch-practice require owner sign-in; Liminal repository README confirms earlier fictional sample data but no accessible runtime demo was verified. Library search returned concept mockups, not verified interior screenshots. AI Group Chat requires account access; CatteryFlow beta is marked not for sharing. Do not publish these private screens or bypass access controls.
+- **Next:** Prepare owner-authorized, fictional sample workspaces, then capture real Liminal, Album Studio, Celebrations, wedding command center, CatteryFlow and AI Group Chat interiors. Contact-delivery PR #6 remains separate and unmerged.
+
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
 - **Date / time zone:**
