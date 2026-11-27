@@ -13,7 +13,7 @@ Updated November 27, 2026 (America/Chicago). The public catalog is generated fro
 | AI Group Chat | Active Build | Formerly brAIn Nexus; live account portal at aigroupchat.app. |
 | Phoenix Chat | Planning | Retired-model preservation concept. |
 | Holy Gossip | Active Build | Public web story experience. |
-| Liminal Dream Journal | Prototype | Live sign-in; private interior requires review. |
+| Liminal Dream Journal | Active Build | Live sign-in; source includes private journal storage, structured analysis and archive controls; authenticated runtime review pending. |
 | HAUNT | Prototype | Public sample-data build, separate collaboration. |
 | Kitten Corner | Idea | Family activities and guides concept. |
 | Community Compass | Planning | Also explored as Neighbor's Map; repository and MVP brief exist. |
