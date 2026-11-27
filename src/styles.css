@@ -186,6 +186,8 @@ p { line-height: 1.72; color: var(--muted); }
 .badge-row > span:last-child { font-size: .74rem; color: var(--muted); }
 .project-live-link { width: fit-content; margin-top: 18px; display: inline-flex; align-items: center; gap: 7px; padding-bottom: 3px; border-bottom: 1px solid var(--sage); color: var(--sage); font-size: .76rem; font-weight: 750; }
 .project-hero .image-frame { aspect-ratio: 16/10; border-radius: 20px; box-shadow: var(--shadow); }
+.project-hero .project-screenshot { background: #f0ede6; }
+.project-hero .project-screenshot img { object-fit: contain; }
 .detail-overview { display: grid; grid-template-columns: 1fr 1.2fr; gap: 90px; align-items: start; }
 .detail-overview h2 { font-size: 2.5rem; }
 .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; margin: 0; padding: 0; list-style: none; }

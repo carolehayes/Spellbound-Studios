@@ -56,6 +56,9 @@ Keep one central project data source, distinguish concept artwork from actual bu
 
 - **Additional verification:** Rendered Holy Gossip home, onboarding, story library and David & Goliath story; rendered Smoothie Spellbook home, recipes and recipe detail; rendered HAUNT public prototype and outfit gallery; rendered Liminal sign-in only. Added nine screenshots with accurate labels, kept previous screens clearly labeled and did not sign into private journals. Gallery now preserves complete capture and exposes captions, and CatteryFlow is featured first. HAUNT listings are demo data; Liminal interior remains unverified.
 
+- **Release verification:** [PR #2](https://github.com/carolehayes/Spellbound-Studios/pull/2) merged as `97b1615a6e2c46eb0abd808552ff9c9ebbad5d4b`. Vercel production READY, actual `spellboundstudios.dev` home, app directory, CatteryFlow and A Helping Paw detail routes rendered. Tested gallery open/next/close and loaded every screenshot in Smoothie Spellbook, Holy Gossip, HAUNT and Liminal galleries. Local lint/build and all 41 initial image references passed. Added a further public beta welcome screenshot after verifying its actual URL and corrected screenshot hero framing. Existing contact intake remains explicitly local-only; a receiving inbox needs Carole's choice before it can transmit inquiries.
+- **Related work:** CatteryFlow marketing-site [PR #2](https://github.com/carolehayes/catteryflow-site/pull/2) adds Sign In with safe workspace-ID routing and support fallback; preview READY and all affected routes/assets returned HTTP 200. It awaits approval under that project's existing rules. Automatic email-based portal discovery and publication-safe demo screenshot capture remain separate follow-ups.
+
 
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
