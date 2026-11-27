@@ -292,7 +292,7 @@ function ProjectDetail({ project, navigate }) {
         <Link href="/apps" navigate={navigate} className="back-link">← All apps</Link>
         <div className="project-hero-copy">
           <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div><div className="button-row">{project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">{project.liveLinkLabel || 'View current build'} <ExternalLink size={15} /></a>}{project.betaUrl && <a className="project-live-link" href={project.betaUrl} target="_blank" rel="noreferrer">Join the beta <ExternalLink size={15} /></a>}</div></div>
-          <ImageFrame src={project.image} alt={`${project.name} project preview`} label={project.imageLabel || 'Concept Design'} />
+          <ImageFrame src={project.image} alt={`${project.name} project preview`} label={project.imageLabel || 'Concept Design'} className={['Current Build', 'Public Website', 'Earlier Build'].includes(project.imageLabel) ? 'project-screenshot' : ''} />
         </div>
       </section>
 
