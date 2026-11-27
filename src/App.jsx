@@ -3,11 +3,10 @@ import {
   ArrowRight, Check, ChevronDown, ExternalLink, Feather, Menu, Search,
   Sparkles, X, ZoomIn, CalendarDays, Circle, Mail, ShieldCheck, Layers3,
 } from 'lucide-react';
-import CatteryAppPage from './CatteryAppPage.jsx';
 import { categoryOptions, incubatorIdeas, journalEntries, projects, statusOptions } from './data.js';
 
 const navItems = [
-  ['Home', '/'], ['Apps', '/apps'], ['Cattery App', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
+  ['Home', '/'], ['Apps', '/apps'], ['CatteryFlow', '/cattery-app'], ['Progress', '/progress'], ['Incubator', '/incubator'],
   ['Journal', '/journal'], ['About', '/about'], ['Contact', '/contact'],
 ];
 
@@ -188,7 +187,7 @@ function Home({ navigate }) {
       <section className="page-section featured-section">
         <SectionHeading title="Featured projects" intro="A growing collection of useful, curious tools—each one born from a real need and shaped with care." link="/apps" linkLabel="Explore all apps" navigate={navigate} />
         <div className="featured-grid">
-          {projects.filter((p) => p.featured).map((project, index) => <ProjectCard key={project.slug} project={project} navigate={navigate} wide={index === 0} />)}
+          {projects.filter((p) => p.featured).sort((a, b) => Number(b.slug === 'cattery-management') - Number(a.slug === 'cattery-management')).map((project, index) => <ProjectCard key={project.slug} project={project} navigate={navigate} wide={index === 0} />)}
         </div>
       </section>
 
@@ -286,13 +285,13 @@ function ProjectDetail({ project, navigate }) {
   const [lightbox, setLightbox] = useState(null);
   const related = journalEntries.filter((entry) => entry.project.includes(project.name.split(' ')[0]) || entry.project === 'Spellbound Studios').slice(0, 2);
   const gallery = project.screenshots.map(normalizeMedia);
-  const hasCurrentBuild = gallery.some((item) => item.label === 'Current Build');
+  const hasCurrentBuild = gallery.some((item) => ['Current Build', 'Public Website', 'Earlier Build'].includes(item.label));
   return (
     <main className={`project-detail accent-${project.accent}`}>
       <section className="project-hero">
         <Link href="/apps" navigate={navigate} className="back-link">← All apps</Link>
         <div className="project-hero-copy">
-          <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div>{project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">View current build <ExternalLink size={15} /></a>}</div>
+          <div><p className="project-category">{project.categories.join(' · ')}</p><h1>{project.name}</h1>{project.displayNote && <p className="name-note">{project.displayNote}</p>}<p className="project-tagline">{project.tagline}</p><p>{project.shortDescription}</p><div className="badge-row"><StatusBadge status={project.status} /><span>{project.phase}</span></div><div className="button-row">{project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">{project.liveLinkLabel || 'View current build'} <ExternalLink size={15} /></a>}{project.betaUrl && <a className="project-live-link" href={project.betaUrl} target="_blank" rel="noreferrer">Join the beta <ExternalLink size={15} /></a>}</div></div>
           <ImageFrame src={project.image} alt={`${project.name} project preview`} label={project.imageLabel || 'Concept Design'} />
         </div>
       </section>
@@ -303,8 +302,8 @@ function ProjectDetail({ project, navigate }) {
       </section>
 
       <section className="gallery-section">
-        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{hasCurrentBuild ? 'Real build captures are labeled Current Build. Planned views remain clearly marked as concepts.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p></div></div>
-        <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></button>)}</div>
+        <div className="section-heading"><div><p className="section-label">Inside the project</p><h2>Project gallery</h2><p>{hasCurrentBuild ? 'Real screenshots are labeled by source: current build, public website, or earlier build. Concepts are clearly marked.' : 'These planned views are clearly labeled concepts—not claims of live software.'}</p>{project.featuresUrl && <a className="project-live-link" href={project.featuresUrl} target="_blank" rel="noreferrer">Explore the full feature directory <ExternalLink size={15} /></a>}</div></div>
+        <div className="gallery-rail">{gallery.map((item, index) => <button key={`${item.src}-${index}`} onClick={() => setLightbox(index)} aria-label={`Open ${item.caption || `${project.name} image ${index + 1}`}`}><div className="gallery-preview"><img src={item.src} alt={item.caption || `${project.name} gallery image ${index + 1}`} loading="lazy" /><span className={mediaTone(item.label)}><ZoomIn size={17} />{item.label}</span></div><p className="gallery-caption">{item.caption || project.name}</p></button>)}</div>
       </section>
 
       <section className="page-section timeline-section">
@@ -516,7 +515,7 @@ export default function App() {
   else if (cleanPath.startsWith('/apps/')) {
     const project = projects.find((item) => item.slug === cleanPath.split('/')[2]);
     page = project ? <ProjectDetail project={project} navigate={navigate} /> : <NotFound navigate={navigate} />;
-  } else if (cleanPath === '/cattery-app') page = <CatteryAppPage />;
+  } else if (cleanPath === '/cattery-app') page = <ProjectDetail project={projects.find((item) => item.slug === 'cattery-management')} navigate={navigate} />;
   else if (cleanPath === '/progress') page = <ProgressPage navigate={navigate} />;
   else if (cleanPath === '/incubator') page = <IncubatorPage navigate={navigate} />;
   else if (cleanPath === '/journal') page = <JournalPage navigate={navigate} />;

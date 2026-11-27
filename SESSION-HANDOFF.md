@@ -39,6 +39,24 @@ Keep one central project data source, distinguish concept artwork from actual bu
 
 ## Update template
 
+## Portfolio refresh — 2026-11-26 (America/Chicago)
+
+- **Assistant:** Codex.
+- **Changes:** Updated the catalog and navigation to CatteryFlow, preserved `/cattery-app` as a route to its current showcase, added official site and beta-readiness links, and retired the public naming poll without deleting its code or data. Preserved historical gallery captures and distinguished them from the concept hero.
+- **Verification:** Local lint and production build passed. Vercel confirmed the official CatteryFlow domain; live browser acceptance and new screenshot collection remain pending because the local Chromium executable is unavailable.
+- **Next step:** Capture privacy-safe screenshots from the test cattery; replace historical gallery images with actual current build captures, then audit other projects and add A Helping Paw.
+- **Save state:** See the portfolio-refresh branch and its commit for the current implementation.
+
+## Portfolio refresh — 2026-11-27 (America/Chicago)
+
+- **Assistant:** Codex.
+- **Changes:** Added A Helping Paw with three actual public build screenshots and an accurately scoped early-build description. Updated CatteryFlow with its verified public features page, current brand screenshot, beta link and expanded feature summary; labeled old screenshots earlier builds. Added Carole's autonomous milestone workflow to AGENTS.md.
+- **Verification:** Public CatteryFlow features and A Helping Paw home, browse and finder rendered successfully. A Helping Paw's custom domain did not load; use its verified Vercel production URL. Internal CatteryFlow captures show a personalized beta watermark and are not included in the public repository.
+- **Next:** Continue auditing other public projects and replace stale screenshots; establish an authorized public test-cattery showcase mode before publishing internal screenshots. Add a safe portal finder/sign-in on the CatteryFlow marketing site as a separate milestone.
+
+- **Additional verification:** Rendered Holy Gossip home, onboarding, story library and David & Goliath story; rendered Smoothie Spellbook home, recipes and recipe detail; rendered HAUNT public prototype and outfit gallery; rendered Liminal sign-in only. Added nine screenshots with accurate labels, kept previous screens clearly labeled and did not sign into private journals. Gallery now preserves complete capture and exposes captions, and CatteryFlow is featured first. HAUNT listings are demo data; Liminal interior remains unverified.
+
+
 Update the current status and next action above, then add a concise session entry here. Link to existing detailed records instead of copying their history.
 
 - **Date / time zone:**

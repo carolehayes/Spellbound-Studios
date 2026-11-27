@@ -1,5 +1,9 @@
 # Spellbound-Studios — Agent instructions
 
+## Autonomous milestone workflow
+
+When Carole requests ongoing implementation, continue autonomously through successive milestones: build, verify, fix, document, and begin the next task. Use progress updates without ending the session. Stop only for a genuine blocker, necessary decision, or completion. Keep private data and unpublished beta imagery out of public assets; document blockers and continue independent tasks where possible.
+
 
 ## Shared session continuity
 
