@@ -473,19 +473,36 @@ function AboutPage({ navigate }) {
 
 function ContactPage() {
   const [draft, setDraft] = useState(null);
+  const [directEnabled, setDirectEnabled] = useState(false);
+  const [sendStatus, setSendStatus] = useState('idle');
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/contact').then((r) => r.ok ? r.json() : null).then((data) => { if (alive) setDirectEnabled(data?.enabled === true); }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = Object.fromEntries(new FormData(event.currentTarget));
-    setDraft(formData);
+    setDraft({ ...formData, requestId: crypto.randomUUID() });
+    setSendStatus('idle');
+  };
+  const sendDirect = async () => {
+    if (!draft || sendStatus === 'sending' || sendStatus === 'sent') return;
+    setSendStatus('sending');
+    try {
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(draft) });
+      const result = await response.json();
+      setSendStatus(response.ok && result.ok ? 'sent' : response.status === 429 ? 'limited' : 'uncertain');
+    } catch { setSendStatus('uncertain'); }
   };
   return (
     <main>
       <PageIntro title="Build My App" image="/images/studio-hero.jpg">Have an app idea that will not leave you alone? Let’s give it shape, find the clearest first version, and see what it could become.</PageIntro>
       <section className="page-section contact-layout" id="build">
-        <aside><p className="section-label">A collaborative, personal approach</p><h2>Start with the idea—not the jargon.</h2><p>You do not need a perfect brief. Tell us who the idea is for, what it changes, and what you hope it might do. The first step is a clear conversation about fit, scope, and a useful way forward.</p><div className="contact-promise"><Mail /><p><strong>Get your idea to the studio</strong>Prepare your project brief below, then open it in your email app and send it to us. You can also email <a href={`mailto:${STUDIO_INBOX}`}>{STUDIO_INBOX}</a> directly.</p></div></aside>
+        <aside><p className="section-label">A collaborative, personal approach</p><h2>Start with the idea—not the jargon.</h2><p>You do not need a perfect brief. Tell us who the idea is for, what it changes, and what you hope it might do. The first step is a clear conversation about fit, scope, and a useful way forward.</p><div className="contact-promise"><Mail /><p><strong>Get your idea to the studio</strong>{directEnabled ? 'Prepare your project brief, then send it directly to the studio.' : 'Prepare your project brief below, then open it in your email app and send it to us.'} You can also email <a href={`mailto:${STUDIO_INBOX}`}>{STUDIO_INBOX}</a> directly.</p></div></aside>
         <div className="form-wrap">
-          <ProjectForm onSubmit={handleSubmit} onChange={() => setDraft(null)} />
-          {draft && <div className="form-success" role="status"><Sparkles /><h2>Your brief is ready to email.</h2><p>Open your email app to send the prepared message. Nothing has been sent yet.</p><a className="button" href={projectEmailHref(draft)}>Open email draft <ArrowRight size={17} /></a><details><summary>No email app? Copy the brief instead.</summary><textarea aria-label="Prepared project brief" readOnly rows="10" value={formatProjectBrief(draft)} /><p>Paste it into a message to {STUDIO_INBOX}.</p></details></div>}
+          <ProjectForm onSubmit={handleSubmit} onChange={() => { setDraft(null); setSendStatus('idle'); }} disabled={sendStatus === 'sending'} />
+          {draft && <div className="form-success" role="status"><Sparkles /><h2>{sendStatus === 'sent' ? 'Your inquiry was accepted for delivery.' : 'Your brief is ready to email.'}</h2>{sendStatus === 'sent' ? <p>Thank you for telling us about your idea.</p> : <><p>{sendStatus === 'uncertain' ? 'We could not confirm direct delivery. You can retry the same inquiry, or use your email app if needed.' : sendStatus === 'limited' ? 'The direct submission limit was reached. Please email us instead or try later.' : directEnabled ? 'Send it directly, or open your email app to send it yourself.' : 'Open your email app to send the prepared message. Nothing has been sent yet.'}</p>{directEnabled && sendStatus !== 'limited' && <button className="button" type="button" disabled={sendStatus === 'sending'} onClick={sendDirect}>{sendStatus === 'sending' ? 'Sending…' : sendStatus === 'uncertain' ? 'Retry direct delivery' : 'Send inquiry directly'}</button>}<a className="button secondary" href={projectEmailHref(draft)}>Open email draft <ArrowRight size={17} /></a><details><summary>No email app? Copy the brief instead.</summary><textarea aria-label="Prepared project brief" readOnly rows="10" value={formatProjectBrief(draft)} /><p>Paste it into a message to {STUDIO_INBOX}.</p></details></>}</div>}
         </div>
       </section>
       <PricingExamples />
@@ -493,9 +510,10 @@ function ContactPage() {
   );
 }
 
-function ProjectForm({ onSubmit, onChange }) {
+function ProjectForm({ onSubmit, onChange, disabled }) {
   return (
     <form className="project-form" onSubmit={onSubmit} onChange={onChange}>
+      <fieldset disabled={disabled} className="project-fields">
       <div className="form-heading"><p className="section-label">Project intake</p><h2>Tell me about your idea</h2><p>A few honest notes are more useful than a polished pitch.</p></div>
       <div className="form-grid"><label>Name<input name="name" required autoComplete="name" /></label><label>Email<input name="email" type="email" required autoComplete="email" /></label></div>
       <label>Project or app idea<input name="idea" required placeholder="A short working title or summary" /></label>
@@ -506,7 +524,9 @@ function ProjectForm({ onSubmit, onChange }) {
       <div className="form-grid"><label>Desired timing<input name="timing" placeholder="Flexible, this season, a date…" /></label><label>Budget range<select name="budget" defaultValue="Unsure"><option>Unsure</option><option>Under $5k</option><option>$5k–$15k</option><option>$15k–$30k</option><option>$30k+</option></select></label></div>
       <label>Reference links<input name="references" type="url" placeholder="https://" /></label>
       <label>Anything else?<textarea name="anythingElse" rows="3" /></label>
+      <label className="contact-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
       <button className="button" type="submit">Prepare my email <ArrowRight size={17} /></button>
+      </fieldset>
     </form>
   );
 }

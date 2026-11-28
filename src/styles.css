@@ -361,6 +361,8 @@ p { line-height: 1.72; color: var(--muted); }
 .form-success details { width: 100%; margin: 18px 0 0; text-align: left; }
 .form-success summary { cursor: pointer; font-weight: 700; }
 .form-success textarea { width: 100%; margin-top: 12px; padding: 12px; font: inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; resize: vertical; }
+.project-fields { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 18px; }
+.contact-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .pricing-section { width: min(1320px, calc(100% - 64px)); margin: 0 auto 100px; padding: 55px; border-radius: 18px; background: #e9e3d8; }
 .pricing-section > div:first-child { max-width: 700px; }
 .pricing-section h2 { margin-bottom: 10px; font-size: 2.8rem; }
